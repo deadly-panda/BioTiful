@@ -1,0 +1,203 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="hero-wrap hero-bread" style="background-image: url({% static 'images/bg_1.jpg' %});">
+      <div class="container">
+        <div class="row no-gutters slider-text align-items-center justify-content-center">
+          <div class="col-md-9 ftco-animate text-center">
+          	<p class="breadcrumbs"><span class="mr-2"><a href="{% url 'mainApp:home' %}">Home</a></span></p>
+            <h1 class="mb-0 bread">Mon panier </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="ftco-section ftco-cart">
+			<div class="container">
+				<div class="row">
+    			<div class="col-md-12 ftco-animate">
+    				<div class="cart-list">
+	    				<table class="table">
+						    <thead class="thead-primary">
+						      <tr class="text-center">
+						        <th>&nbsp;</th>
+						        <th>&nbsp;</th>
+						        <th>Produit</th>
+						        <th>Prix</th>
+						        <th>Quantité</th>
+						        <th>Total</th>
+                              </tr>
+                              
+						    </thead>
+						    <tbody>
+							  {% for order_item in object.items.all %}	
+						      <tr class="text-center">
+								  <td class="product-remove">
+									{% if order_item.item  %}
+										<a href="{% url 'mainApp:remove_from_cart'  order_item.item.slug   %}"><span class="ion-ios-close"></span></a>
+									{% elif order_item.panier %}
+										<a href="#"><span class="ion-ios-close"></span></a>									
+									{% endif %}
+								  </td>
+								  <td>{{ forloop.counter }}</td>
+								  	{% if order_item.item  %}
+										<td>{{ order_item.item.title }}</td>
+										<td>{{ order_item.item.price }}</td>
+									{% elif order_item.panier %}
+										<td>
+											{% if order_item.panier.type in "PET" %} Petit panier 
+											{% elif order_item.panier.type in "MOY" %} Panier moyen
+											{% elif order_item.panier.type in "GRA" %} Grand panier
+											{% endif %}
+										</td>
+										<td>{{ order_item.panier.price }}</td>
+									{% endif %}
+								  <td>
+									{% if order_item.item  %}
+										<a href="{% url 'mainApp:remove_single_item_from_cart' order_item.item.slug %}"><i class="fas fa-minus mr-2"></i></a>
+									{% elif order_item.panier %}
+										<a href="#"><i class="fas fa-minus mr-2"></i></a>								
+									{% endif %}
+
+									{{ order_item.quantity }}  
+
+									{% if order_item.item  %}
+										<a href="{% url 'mainApp:add_to_cart' order_item.item.slug %}"><i class="fas fa-plus ml-2"></i></a>
+									{% elif order_item.panier %}
+										<a href="{% url 'mainApp:add_panier_to_cart' order_item.panier.slug %}"><i class="fas fa-plus ml-2"></i></a>								
+									{% endif %}
+									
+								  </td>
+								  <td>
+									{% if order_item.item  %}	
+										{% if order_item.item.discount_price  %}
+											{{ order_item.get_total_discount_price_price }}0 mad
+											<span class="badge badge-primary">Economise {{ order_item.get_amount_saved }}0 mad</span> 
+										{% else %}
+											{{ order_item.get_total_item_price }}0 mad
+										{% endif %}
+									{% elif order_item.panier %}
+										{% if order_item.panier.get_total_discount_panier_price_price  %}
+											{{ order_item.get_total_discount_price_price }}0 mad
+											<span class="badge badge-primary">Economise {{ order_item.get_amount_panier_saved }}0 mad</span> 
+										{% else %}
+											{{ order_item.get_total_panier_price }}0 mad
+										{% endif %}
+									{% endif %}
+								  </td>
+								
+							  </tr><!-- END TR-->
+							  {% endfor %}
+						    </tbody>
+						  </table>
+					  </div>
+    			</div>
+    		</div>
+    		<div class="row  d-flex justify-content-center">
+    			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+    				<div class="cart-total mb-3">
+    					<h3>Code promo</h3>
+    					<p>Entez votre vode promo</p>
+  						<form action="#" class="info">
+	              <div class="form-group">
+	                <input type="text" class="form-control text-left px-3" placeholder="Code promo">
+	              </div>
+	            </form>
+    				</div>
+    				<p><a href="checkout.html" class="btn btn-primary py-3 px-4">Appliquer le code</a></p>
+    			</div>
+    			<div class="col-lg-4 mt-5 cart-wrap ftco-animate">
+    				<div class="cart-total mb-3">
+    					<h3>Total Panier</h3>
+    					<p class="d-flex">
+    						<span>Hors Taxe</span>
+    						<span>{{ object.get_total_HT }}</span>
+    					</p>
+    					<p class="d-flex">
+    						<span>Livraison</span>
+    						<span>
+								{% if object.livraison %}
+									{{ object.livraison }}
+								{% else %}
+									0.00
+								{% endif %}
+							</span>
+    					</p>
+    					<p class="d-flex">
+    						<span>Remise</span>
+    						<span>
+								{% if object.isCodePromoValid %}
+									10%
+								{% else %}
+									0.00
+								{% endif %}
+							</span>
+    					</p>
+    					<hr>
+    					<p class="d-flex total-price">
+    						<span>Total </span>
+    						<span>{{ object.get_total }} mad</span>
+    					</p>
+    				</div>
+    				<p><a href="/checkout" class="btn btn-primary py-3 px-4">Payez</a></p>
+    			</div>
+    		</div>
+			</div>
+		</section>
+
+		<section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
+			<div class="container py-4">
+			  <div class="row d-flex justify-content-center py-5">
+				<div class="col-md-6">
+					<h2 style="font-size: 22px;" class="mb-0">Inscrivez-vous pour recevoir nos deals !</h2>
+					<span>Recevez par mail, tout nos offres spéciales.</span>
+				</div>
+				<div class="col-md-6 d-flex align-items-center">
+				  <form action="#" class="subscribe-form">
+					<div class="form-group d-flex">
+					  <input type="text" class="form-control" placeholder="Entrez votre adresse mail">
+					  <input type="submit" value="Subscribe" class="submit px-3">
+					</div>
+				  </form>
+				</div>
+			  </div>
+			</div>
+		</section>
+    <script>
+  		$(document).ready(function(){
+
+  		var quantitiy=0;
+  		   $('.quantity-right-plus').click(function(e){
+
+  		        // Stop acting like a button
+  		        e.preventDefault();
+  		        // Get the field name
+  		        var quantity = parseInt($('#quantity').val());
+
+  		        // If is not undefined
+
+  		            $('#quantity').val(quantity + 1);
+
+
+  		            // Increment
+
+  		    });
+
+  		     $('.quantity-left-minus').click(function(e){
+  		        // Stop acting like a button
+  		        e.preventDefault();
+  		        // Get the field name
+  		        var quantity = parseInt($('#quantity').val());
+
+  		        // If is not undefined
+
+  		            // Increment
+  		            if(quantity>0){
+  		            $('#quantity').val(quantity - 1);
+  		            }
+  		    });
+
+  		});
+  	</script>
+{% endblock %}
