@@ -22,23 +22,17 @@ It was made with Django~=3.1 to help the cooperative recieve & prepare Bio-produ
 
 <p align="center">
   <label style="font-weight: bold;">Categories</label>
-  <img src="https://i.imgur.com/AkNcGkp.png" height="400" width="900" title="hover text">
-</p>
-
-
+  <img src="https://i.imgur.com/AkNcGkp.png" height="100%" width="100%" title="hover text">
+</p> 
 <p align="center">
-  <label font-weight: bold;>Poducts</label>
-  <img src="https://i.imgur.com/8ryOlCD.png" height="400" width="900" title="hover text">
+  <label style="font-weight: bold;">Poducts</label>
+  <img src="https://i.imgur.com/8ryOlCD.png" height="100%" width="100%" title="hover text">
 </p>
-
-
 <p align="center">
-  <label font-weight: bold;>Basket</label>
-  <img src="https://i.imgur.com/lMDnC4f.png" height="400" width="900" title="hover text">
+  <label style="font-weight: bold;">Basket</label>
+  <img src="https://i.imgur.com/lMDnC4f.png" height="100%" width="100%" title="hover text">
 </p>
-
-
 <p align="center">
-  <label font-weight: bold;>Payment</label>
-  <img src="https://i.imgur.com/2YIOU44.png" height="400" width="900" title="hover text">
+  <label style="font-weight: bold;">Payment</label>
+  <img src="https://i.imgur.com/2YIOU44.png" height="100%" width="100%" title="hover text">
 </p>
